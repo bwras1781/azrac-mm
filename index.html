@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barışalım mı? - Yazılımcı Şakası</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        #soru {
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        #cevaplar {
+            display: flex;
+            gap: 50px; /* Butonlar arasındaki boşluk */
+        }
+
+        .buton {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s ease; /* Yumuşak geçişler için */
+            font-weight: bold;
+        }
+
+        /* EVET Butonu Stili */
+        #evet-btn {
+            background-color: #4CAF50; /* Yeşil */
+            color: white;
+            font-size: 16px; /* Başlangıç boyutu */
+        }
+
+        /* HAYIR Butonu Stili */
+        #hayir-btn {
+            background-color: #f44336; /* Kırmızı */
+            color: white;
+            font-size: 16px;
+        }
+
+        /* EVET Butonu Büyüme Efekti */
+        .buyuk-evet {
+            position: fixed; /* Ekranı kaplaması için */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            font-size: 200px !important; /* Dev boyut */
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(76, 175, 80, 0.95); /* Yarı şeffaf yeşil */
+            color: white;
+            text-shadow: 2px 2px 4px #000;
+            border-radius: 0;
+            animation: pulse 1.5s infinite; /* Ekstra animasyon */
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="soru">Barışalım mı sevgilim? 😊</div>
+
+    <div id="cevaplar">
+        <button id="hayir-btn" class="buton" onclick="hayirTiklandi()">HAYIR</button>
+        <button id="evet-btn" class="buton" onclick="evetTiklandi()">EVET</button>
+    </div>
+
+    <script>
+        const evetBtn = document.getElementById('evet-btn');
+        const hayirBtn = document.getElementById('hayir-btn');
+        let evetBoyut = 16; // Başlangıç font boyutu (px)
+        const boyutArtis = 6; // Her tıklamada boyut artışı
+
+        function hayirTiklandi() {
+            // 1. "EVET" Butonunu Büyüt
+            evetBoyut += boyutArtis;
+            evetBtn.style.fontSize = evetBoyut + 'px';
+            
+            // 2. Mesajı Güncelle (Opsiyonel)
+            evetBtn.textContent = 'EVET (' + evetBoyut + 'px)';
+
+            // 3. Büyük "EVET" Şakası
+            if (evetBoyut >= 80) {
+                // "Hayır" butonunu ve diğer elementleri gizle
+                hayirBtn.style.display = 'none';
+                document.getElementById('soru').style.display = 'none';
+
+                // "EVET" butonunu tüm ekranı kaplayacak hale getir
+                evetBtn.classList.add('buyuk-evet');
+                evetBtn.textContent = 'EVET (Yazılımcı Sevgilin Kazandı!)';
+
+                // Tekrar tıklanmasını engelle
+                evetBtn.onclick = evetTiklandiFinal;
+            }
+        }
+
+        function evetTiklandi() {
+            // İlk başta "EVET" tıklanırsa normal mesaj ver
+            alert("Biliyordum! 😊");
+        }
+        
+        function evetTiklandiFinal() {
+            // Tam ekran "EVET"e tıklanınca verilecek final mesajı
+            alert("Barışmak zorunda kaldın! 😂 (Tebrikler, tuzağa düştün!)");
+        }
+
+    </script>
+
+</body>
+</html>
